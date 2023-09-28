@@ -1,11 +1,14 @@
 import React from 'react';
+import useContext from 'react';
 import classNames from 'classnames';
 import Header, { HeaderLeft, HeaderRight } from '../../../layout/Header/Header';
 import CommonHeaderChat from './CommonHeaderChat';
 import useDarkMode from '../../../hooks/useDarkMode';
+import AuthContext from '../../../contexts/authContext';
 
 const DashboardBookingHeader = () => {
 	const { darkModeStatus } = useDarkMode();
+	const userInfo = JSON.parse(localStorage.getItem('facit_authUserInfo')) ?? {};
 	return (
 		<Header>
 			<HeaderLeft>
@@ -16,14 +19,14 @@ const DashboardBookingHeader = () => {
 								className={classNames('fs-3', 'fw-bold', {
 									'text-dark': !darkModeStatus,
 								})}>
-								Hi, John!
+								Hi, {userInfo.name}!
 							</div>
 						</div>
 					</div>
 				</div>
 			</HeaderLeft>
 			<HeaderRight>
-				<CommonHeaderChat />
+				{/* <CommonHeaderChat /> */}
 			</HeaderRight>
 		</Header>
 	);

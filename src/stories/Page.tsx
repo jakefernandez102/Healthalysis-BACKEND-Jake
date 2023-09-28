@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable prettier/prettier */
 import React from 'react';
 
 import { Header } from './Header';

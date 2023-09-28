@@ -20,6 +20,8 @@ const SINGLE = {
 	FLUID: lazy(() => import('../pages/presentation/single-pages/SingleFluidPage')),
 };
 const LIST = {
+	COMPANIESLIST: lazy(() => import('../pages/presentation/demo-pages/CompaniesList')),
+	USERSLIST: lazy(() => import('../pages/presentation/demo-pages/UsersList')),
 	BOXED: lazy(() => import('../pages/presentation/demo-pages/ListBoxedPage')),
 	FLUID: lazy(() => import('../pages/presentation/demo-pages/ListFluidPage')),
 };
@@ -29,6 +31,7 @@ const GRID = {
 };
 const EDIT = {
 	COMPANY: lazy(() => import('../pages/presentation/demo-pages/CreateCompanyPage')),
+	USER: lazy(() => import('../pages/presentation/demo-pages/CreateUserPage')),
 	MODERN: lazy(() => import('../pages/presentation/demo-pages/EditModernPage')),
 	BOXED: lazy(() => import('../pages/presentation/demo-pages/EditBoxedPage')),
 	FLUID: lazy(() => import('../pages/presentation/demo-pages/EditFluidPage')),
@@ -191,6 +194,7 @@ const EXTRA = {
 	HOOKS: lazy(() => import('../pages/documentation/extras/HooksPage')),
 };
 
+
 const presentation: RouteProps[] = [
 	/**
 	 * Landing
@@ -200,8 +204,28 @@ const presentation: RouteProps[] = [
 		element: <LANDING.DASHBOARD />,
 	},
 	{
+		path: dashboardPagesMenu.companies.subMenu.companiesList.path,
+		element: <LIST.COMPANIESLIST />,
+	},
+	{
 		path: dashboardPagesMenu.companies.subMenu.createCompany.path,
 		element: <EDIT.COMPANY />,
+	},
+	{
+		path: `${dashboardPagesMenu.companies.subMenu.createCompany.path}/:id`,
+		element: <EDIT.COMPANY />,
+	},
+	{
+		path: dashboardPagesMenu.users.subMenu.usersList.path,
+		element: <LIST.USERSLIST />,
+	},
+	{
+		path: dashboardPagesMenu.users.subMenu.createUser.path,
+		element: <EDIT.USER />,
+	},
+	{
+		path:`${dashboardPagesMenu.users.subMenu.createUser.path}/:id`,
+		element: <EDIT.USER />,
 	},
 	{
 		path: dashboardPagesMenu.dashboardBooking.path,
@@ -310,6 +334,7 @@ const presentation: RouteProps[] = [
 		path: demoPagesMenu.signUp.path,
 		element: <Login isSignUp />,
 	},
+
 
 	/**
 	 * App

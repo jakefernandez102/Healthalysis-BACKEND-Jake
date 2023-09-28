@@ -37,10 +37,36 @@ export const dashboardPagesMenu = {
 		path: 'companies',
 		icon: 'Store',
 		subMenu: {
+			companiesList: {
+				id: 'companies-list',
+				text: 'Companies List',
+				path: 'companies/companies-list',
+				icon: 'Badge',
+			},
 			createCompany: {
 				id: 'create-company',
 				text: 'Create Company',
 				path: 'companies/create-company',
+				icon: 'Badge',
+			},
+		},
+	},
+	users: {
+		id: 'user',
+		text: 'Users',
+		path: 'users',
+		icon: 'PeopleAlt',
+		subMenu: {
+			usersList: {
+				id: 'users-list',
+				text: 'Users List',
+				path: 'users/users-list',
+				icon: 'Badge',
+			},
+			createUser: {
+				id: 'create-user',
+				text: 'Create user',
+				path: 'users/create-user',
 				icon: 'Badge',
 			},
 		},

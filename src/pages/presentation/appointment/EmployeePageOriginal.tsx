@@ -1,11 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import classNames from 'classnames';
 import { getUserDataWithId } from '../../../common/data/userDummyData';
 import PageWrapper from '../../../layout/PageWrapper/PageWrapper';
 import Page from '../../../layout/Page/Page';
-
+import SubHeader, {
+	SubHeaderLeft,
+	SubHeaderRight,
+	SubheaderSeparator,
+} from '../../../layout/SubHeader/SubHeader';
 import Button from '../../../components/bootstrap/Button';
 import Card, {
 	CardActions,
@@ -16,6 +20,7 @@ import Card, {
 } from '../../../components/bootstrap/Card';
 import Avatar from '../../../components/Avatar';
 import Icon from '../../../components/icon/Icon';
+import { demoPagesMenu } from '../../../menu';
 import Badge from '../../../components/bootstrap/Badge';
 import Dropdown, {
 	DropdownItem,
@@ -27,10 +32,10 @@ import dummyEventsData from '../../../common/data/dummyEventsData';
 import { priceFormat } from '../../../helpers/helpers';
 import EVENT_STATUS from '../../../common/data/enumEventStatus';
 import Alert from '../../../components/bootstrap/Alert';
+import CommonAvatarTeam from '../../../common/other/CommonAvatarTeam';
 import COLORS from '../../../common/data/enumColors';
 import useDarkMode from '../../../hooks/useDarkMode';
 import useTourStep from '../../../hooks/useTourStep';
-import AuthContext from '../../../contexts/authContext';
 
 const EmployeePage = () => {
 	useTourStep(19);
@@ -38,7 +43,6 @@ const EmployeePage = () => {
 
 	const { id } = useParams();
 	const data = getUserDataWithId(id);
-	const {  userInfo } = useContext(AuthContext);
 
 	const [dayHours] = useState<IChartOptions>({
 		series: [
@@ -104,8 +108,8 @@ const EmployeePage = () => {
 	const userTasks = dummyEventsData.filter((f) => f.assigned.username === data.username);
 
 	return (
-		<PageWrapper title={`${userInfo?.name} ${userInfo?.lastname}`}>
-			{/* <SubHeader>
+		<PageWrapper title={`${data.name} ${data.surname}`}>
+			<SubHeader>
 				<SubHeaderLeft>
 					<Button
 						color='info'
@@ -124,10 +128,10 @@ const EmployeePage = () => {
 					<span className='text-muted fst-italic me-2'>Last update:</span>
 					<span className='fw-bold'>13 hours ago</span>
 				</SubHeaderRight>
-			</SubHeader> */}
+			</SubHeader>
 			<Page>
 				<div className='pt-3 pb-5 d-flex align-items-center'>
-					<span className='display-4 fw-bold me-3'>{`${userInfo?.name} ${userInfo?.lastname}`}</span>
+					<span className='display-4 fw-bold me-3'>{`${data.name} ${data.surname}`}</span>
 					<span className='border border-success border-2 text-success fw-bold px-3 py-2 rounded'>
 						{data.position}
 					</span>
@@ -154,7 +158,7 @@ const EmployeePage = () => {
 													</div>
 													<div className='flex-grow-1 ms-3'>
 														<div className='fw-bold fs-5 mb-0'>
-															{`${userInfo?.email} HOLAAAA`}
+															{`${data.username}@site.com`}
 														</div>
 														<div className='text-muted'>
 															Email Address
@@ -169,7 +173,7 @@ const EmployeePage = () => {
 													</div>
 													<div className='flex-grow-1 ms-3'>
 														<div className='fw-bold fs-5 mb-0'>
-															{`@${userInfo?.name}`}
+															{`@${data.username}`}
 														</div>
 														<div className='text-muted'>
 															Social name

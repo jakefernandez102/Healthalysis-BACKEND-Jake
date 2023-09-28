@@ -3,7 +3,7 @@ interface IValuesBranches
 	branchName: string;
 	branchEmail: string;
 	image: string;
-	state: string;
+	branchStatus: string;
 }
 
 const validateBranches = ( values: IValuesBranches ) =>
@@ -12,7 +12,7 @@ const validateBranches = ( values: IValuesBranches ) =>
 		branchName: '',
 		branchEmail: '',
 		image: '',
-		state: '',
+		branchStatus: '',
 	};
 	if ( !values.branchName )
 	{
@@ -35,9 +35,9 @@ const validateBranches = ( values: IValuesBranches ) =>
 		errors.image = 'Required';
 	}
 
-	if ( !values.state )
+	if ( !values.branchStatus )
 	{
-		errors.state = 'Required';
+		errors.branchStatus = 'Required';
 	}
 
 	return errors;

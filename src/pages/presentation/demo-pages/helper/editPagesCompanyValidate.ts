@@ -5,7 +5,7 @@ interface IValuesCompany
 	email: string;
 	branches: string;
 	image: string;
-	state: string;
+	companyStatus: string;
 	defaultLanguage: string;
 }
 const validateCompany = ( values: IValuesCompany ) =>
@@ -16,7 +16,7 @@ const validateCompany = ( values: IValuesCompany ) =>
 		email: '',
 		branches: '',
 		image: '',
-		state: '',
+		companyStatus: '',
 		defaultLanguage: '',
 	};
 	if ( !values.name )
@@ -50,9 +50,9 @@ const validateCompany = ( values: IValuesCompany ) =>
 
 	if ( values.image )
 	{
-		if ( !values.state )
+		if ( !values.companyStatus )
 		{
-			errors.state = 'Please provide a valid option.';
+			errors.companyStatus = 'Please provide a valid option.';
 		}
 
 		if ( !values.defaultLanguage )

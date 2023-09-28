@@ -35,7 +35,7 @@ const PageWrapper = forwardRef<HTMLDivElement, IPageWrapperProps>(
 		const navigate = useNavigate();
 		useEffect(() => {
 			if (isProtected && user === '') {
-				navigate(`../${demoPagesMenu.login.path}`);
+				navigate(`../${demoPagesMenu.loginBackOffice.path}`);
 			}
 			return () => {};
 			// eslint-disable-next-line react-hooks/exhaustive-deps

@@ -40,12 +40,12 @@ const useSelectTable = (data: any[]) => {
 		if (ref.current) {
 			if (
 				!!selectTable.values.selectedList.length &&
-				selectTable.values.selectedList.length !== data.map((d) => d.id.toString()).length
+				selectTable.values.selectedList.length !== data.map((d) => d.companyId).length
 			) {
 				ref.current.checked = false;
 				ref.current.indeterminate = true;
 			} else if (
-				selectTable.values.selectedList.length === data.map((d) => d.id.toString()).length
+				selectTable.values.selectedList.length === data.map((d) => d.companyId).length
 			) {
 				ref.current.checked = true;
 				ref.current.indeterminate = false;

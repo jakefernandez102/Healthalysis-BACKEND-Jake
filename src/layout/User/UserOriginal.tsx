@@ -17,8 +17,8 @@ import ThemeContext from '../../contexts/themeContext';
 const User = () => {
 	const { width } = useWindowSize();
 	const { setAsideStatus } = useContext(ThemeContext);
-	const { userData, userInfo } = useContext(AuthContext);
-	console.log(userInfo)
+	const { userData, setUser } = useContext(AuthContext);
+
 	const navigate = useNavigate();
 	const handleItem = useNavigationItemHandle();
 	const { darkModeStatus, setDarkModeStatus } = useDarkMode();
@@ -44,7 +44,7 @@ const User = () => {
 				</div>
 				<div className='user-info'>
 					<div className='user-name d-flex align-items-center'>
-						{`${userInfo?.name} ${userInfo?.lastname}`}
+						{`${userData?.name} ${userData?.surname}`}
 						<Icon icon='Verified' className='ms-1' color='info' />
 					</div>
 					<div className='user-sub-title'>{userData?.position}</div>
@@ -56,10 +56,10 @@ const User = () => {
 						icon='AccountBox'
 						onClick={() =>
 							navigate(
-								`../${demoPagesMenu.appointment.subMenu.employeeID.path}/${userInfo?.id}`,
+								`../${demoPagesMenu.appointment.subMenu.employeeID.path}/${userData?.id}`,
 							)
 						}>
-						Algo
+						Profile
 					</Button>
 				</DropdownItem>
 				<DropdownItem>
@@ -80,7 +80,7 @@ const User = () => {
 							className='navigation-item cursor-pointer'
 							onClick={() =>
 								navigate(
-									`../${demoPagesMenu.appointment.subMenu.employeeID.path}/1`,
+									`../${demoPagesMenu.appointment.subMenu.employeeID.path}/${userData?.id}`,
 									// @ts-ignore
 									handleItem(),
 								)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import SubHeader, {
 	SubHeaderLeft,
@@ -26,10 +26,11 @@ import Select from '../../../components/bootstrap/forms/Select';
 import CommonMyWallet from '../../_common/CommonMyWallet';
 import USERS from '../../../common/data/userDummyData';
 import Icon from '../../../components/icon/Icon';
-import { demoPagesMenu } from '../../../menu';
+import { dashboardPagesMenu } from '../../../menu';
 import showNotification from '../../../components/extras/showNotification';
 import validateBranches from './helper/editPageBranchesValidate';
 import validateCompany from './helper/editPagesCompanyValidate';
+import { useParams } from 'react-router-dom';
 
 
 type TTabs = 'Account Details' | 'Branches' | 'My Wallet';
@@ -43,7 +44,14 @@ const EditBoxedPage = () => {
 		MY_WALLET: 'My Wallet',
 	};
 	const [activeTab, setActiveTab] = useState<TTabs>(TABS.ACCOUNT_DETAIL);
+	const [actualCompany,setActualCompany]=useState<any>()
+	const {id} = useParams()
 
+	useEffect(()=>{
+		fetch(`http://api.healthalysis.com/company/${id}`)
+		.then(response => response.json())
+		.then(company => setActualCompany(company))
+	},[id])
 
 	const formik = useFormik({
 		initialValues: {
@@ -52,7 +60,7 @@ const EditBoxedPage = () => {
 			email: 'cbumgym@mail.com',
 			branches: '64f4eff1ac24b9ee7fe6e8c1',
 			image: 'test/img/cubumgym.jpg',
-			state: '0',
+			companyStatus: '0',
 			defaultLanguage: '1',
 		},
 		validate: validateCompany,
@@ -64,31 +72,57 @@ const EditBoxedPage = () => {
 				</span>,
 				"The user's account details have been successfully updated.",
 			);
+			console.log(formik.values)
 		},
 	});
+
+	useEffect(()=>{
+		formik.setValues({
+			name: actualCompany?.name ,
+			domain: actualCompany?.domain,
+			email: actualCompany?.email ,
+			branches:actualCompany?.branches ?? '',
+			image: actualCompany?.image ,
+			companyStatus: actualCompany?.companyStatus ,
+			defaultLanguage: actualCompany?.defaultLanguage ,
+		})
+	},[id,actualCompany])
 
 	const formikBranches = useFormik({
 		initialValues: {
 			branchName: 'Chicago - cbumgym',
 			branchEmail: 'losangeles@cbumgym.com',
 			image: 'test/test.cbumgym.png',
-			state: '1',
+			branchStatus: '1',
 		},
 		validate: validateBranches,
 		onSubmit: () => {
 			showNotification(
+				
 				<span className='d-flex align-items-center'>
 					<Icon icon='Info' size='lg' className='me-1' />
 					<span>Updated Successfully</span>
 				</span>,
 				"The user's address have been successfully updated.",
 			);
+			
 		},
 	});
 	
+const handleOnSubmit= (e)=>{
+	e.preventDefault()
+// TODO: IMPLEMENTAR REQUEST PARA CREAR COMPANY
+	try {
+		console.log('first')
+	} catch (error) {
+		console.log(error)
+	}
 
+	console.log(formik.values)
+	console.log(formikBranches.values)
+}
 	return (
-		<PageWrapper title={demoPagesMenu.editPages.subMenu.editBoxed.text}>
+		<PageWrapper title={dashboardPagesMenu.companies.subMenu.createCompany.text}>
 			<SubHeader>
 				<SubHeaderLeft>
 					<Breadcrumb
@@ -113,20 +147,20 @@ const EditBoxedPage = () => {
 								email: '',
 								branches: '',
 								image: '',
-								state: '',
+								companyStatus: '',
 								defaultLanguage: '',
 							});
 							formikBranches.setValues({
 								branchName: '',
 								branchEmail: '',
 								image: '',
-								state: '0',
+								branchStatus: '0',
 							});
 						}}>
 						Add New
 					</Button>
 					{TABS.ACCOUNT_DETAIL === activeTab && (
-						<Button color='info' isOutline icon='Save' onClick={formik.handleSubmit}>
+						<Button color='info' isOutline icon='Save' onClick={handleOnSubmit}>
 							Save
 						</Button>
 					)}
@@ -135,7 +169,7 @@ const EditBoxedPage = () => {
 							color='info'
 							isOutline
 							icon='Save'
-							onClick={formikBranches.handleSubmit}>
+							onClick={handleOnSubmit}>
 							Save
 						</Button>
 					)}
@@ -195,7 +229,7 @@ const EditBoxedPage = () => {
 					</div>
 					<div className='col-xl-9 col-lg-8 col-md-6'>
 						{TABS.ACCOUNT_DETAIL === activeTab && (
-							<Card stretch tag='form' noValidate onSubmit={formik.handleSubmit}>
+							<Card stretch tag='form' noValidate onSubmit={handleOnSubmit}>
 								<CardHeader>
 									<CardLabel icon='Contacts' iconColor='info'>
 										<CardTitle tag='div' className='h5'>
@@ -292,11 +326,11 @@ const EditBoxedPage = () => {
 										</div>
 										<div className='col-6'>
 											<FormGroup
-												id='state'
+												id='companyStatus'
 												label='Company Status'
 												isFloating>
 												<Select
-													id='state'
+													id='companyStatus'
 													ariaLabel='company-status'
 													placeholder='Choose...'
 													list={[
@@ -306,20 +340,20 @@ const EditBoxedPage = () => {
 													]}
 													onChange={formik.handleChange}
 													onBlur={formik.handleBlur}
-													value={formik.values.state}
+													value={formik.values.companyStatus}
 													isValid={formik.isValid}
-													isTouched={formik.touched.state}
-													invalidFeedback={formik.errors.state}
+													isTouched={formik.touched.companyStatus}
+													invalidFeedback={formik.errors.companyStatus}
 												/>
 											</FormGroup>
 										</div>
 										<div className='col-6'>
 											<FormGroup
-												id='stateLanguage'
+												id='defaultLanguage'
 												label='DefaultLanguae'
 												isFloating>
 												<Select
-													id='stateLanguage'
+													id='defaultLanguage'
 													ariaLabel='default-language'
 													placeholder='Choose...'
 													list={[
@@ -412,10 +446,10 @@ const EditBoxedPage = () => {
 										</div>
 										<div className='col-lg-12'>
 											<FormGroup
-												id='branch-name'
-												label='Branch Name'
+												label='branchName'
 												isFloating>
 												<Input
+													id='branchName'
 													onChange={formikBranches.handleChange}
 													onBlur={formikBranches.handleBlur}
 													value={formikBranches.values.branchName}
@@ -430,17 +464,18 @@ const EditBoxedPage = () => {
 										</div>
 										<div className='col-lg-12'>
 											<FormGroup
-												id='branch-email'
+												id='branchEmail'
 												label='Branch Email'
 												isFloating>
 												<Input
+													id='branchEmail'
 													onChange={formikBranches.handleChange}
 													value={formikBranches.values.branchEmail}
 												/>
 											</FormGroup>
 										</div>
 										<div className='col-md-3'>
-											<FormGroup id='state' label='Branch Status' isFloating>
+											<FormGroup id='branchStatus' label='Branch Status' isFloating>
 												<Select
 													ariaLabel='Branch Status'
 													placeholder='Choose...'
@@ -451,10 +486,10 @@ const EditBoxedPage = () => {
 													]}
 													onChange={formikBranches.handleChange}
 													onBlur={formikBranches.handleBlur}
-													value={formikBranches.values.state}
+													value={formikBranches.values.branchStatus}
 													isValid={formikBranches.isValid}
-													isTouched={formikBranches.touched.state}
-													invalidFeedback={formikBranches.errors.state}
+													isTouched={formikBranches.touched.branchStatus}
+													invalidFeedback={formikBranches.errors.branchStatus}
 												/>
 											</FormGroup>
 										</div>
